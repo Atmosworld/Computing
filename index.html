@@ -1,0 +1,1309 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Card 1 - HEX</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+ 
+body {
+  margin: 0;
+  background: #ffffff;
+  font-family: 'Poppins', sans-serif;
+}
+
+.title {
+  font-size: clamp(3rem, 5vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #111;
+}
+
+.page-title {
+  font-size: 4.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #111;
+}
+
+.page-subtitle {
+  font-size: 1.25rem;
+  color: #555;
+  margin: 0;
+}
+
+.card {
+  background: white;
+  max-width: 75%;
+  margin: 4rem auto;
+  padding: 4rem 5vw;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid black;
+  border-radius: 0;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: #222;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 2s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+.card p {
+  font-size: 1.3rem;
+  line-height: 1.9;
+}
+
+.card-header-box {
+  text-align: center;
+  margin-top: 5rem;
+}
+
+
+.content p {
+  margin: 0;
+}
+
+.content strong {
+  font-weight: 600;
+}
+
+.section-divider {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 2rem 0;
+}
+
+.modern-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 12px;
+  background: linear-gradient(to right, #A8C3A0, #C6D8Af);
+  border-radius: 6px;
+  outline: none;
+  margin-top: 1rem;
+  transition: background 0.3s ease;
+}
+
+.modern-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid #7C9B84;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.modern-slider::-webkit-slider-thumb:hover {
+  background: #e0f0ff;
+  transform: scale(1.1);
+}
+
+.value-display {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.value-box {
+  background-color: #f8f8f8;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  min-width: 140px;
+}
+
+.value-label {
+  display: block;
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.value-number {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #111;
+}
+
+.hex-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.05rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+}
+
+.hex-table.full-width {
+  max-width: none;
+}
+
+.hex-table thead {
+  background-color: #A3BE8C;
+  color: white;
+}
+
+.hex-table th,
+.hex-table td {
+  padding: 0.75rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  word-break: break-word;
+}
+
+.hex-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.hex-table tbody tr:hover {
+  background-color: #e6f4ff;
+  transition: background-color 0.2s ease;
+}
+
+.card-theme-selector {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.theme-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #aaa;
+  background-color: #ccc;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-dot:hover {
+  transform: scale(1.2);
+}
+
+.theme-dot.white:hover { background-color: #f9f5f5; }
+.theme-dot.blue:hover { background-color: #cbe4f9; }
+.theme-dot.yellow:hover { background-color: #fdf3c0; }
+.theme-dot.red:hover { background-color: #e6c5c0; }
+.theme-dot.green:hover { background-color: #c8e1dc; }
+
+.example-box {
+  background: #fdfbfb;
+  border: 1px solid #e1e1de;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  margin: 1.5rem 0;
+  font-family: monospace;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.example-box code {
+  font-weight: bold;
+  color: #7a7a7a;
+  background-color: #f2f1f1;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.modern-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #007acc, #00c9ff);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.modern-button:hover {
+  background: linear-gradient(135deg, #005f99, #00aaff);
+  transform: translateY(-2px);
+}
+
+.modern-button:active {
+  transform: scale(0.96);
+}
+
+.quiz-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.quiz-binary {
+  font-size: 2rem;
+  font-weight: bold;
+  letter-spacing: 4px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.quiz-options-modern {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.quiz-options-modern button {
+  padding: 0.7rem 1.6rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #007acc, #00c9ff);
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.quiz-options-modern button:hover {
+  background: linear-gradient(135deg, #005f99, #00aaff);
+  transform: translateY(-2px);
+}
+
+.quiz-options-modern button:active {
+  transform: scale(0.96);
+}
+
+.quiz-dots {
+  margin-top: 1rem;
+  font-size: 1.5rem;
+}
+
+.dot {
+  display: inline-block;
+  margin: 0 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #ccc;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.dot.active {
+  background-color: green;
+  transform: scale(1.2);
+}
+
+.quiz-feedback {
+  font-weight: bold;
+  margin-top: 1rem;
+  min-height: 1.5rem;
+  transition: color 0.3s ease;
+}
+
+.hex-challenge {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.hex-prompt {
+  margin: 1rem 0;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.hex-label {
+  margin-right: 0.5rem;
+  color: #555;
+}
+
+.hex-value {
+  background: #eef6ff;
+  padding: 0.2rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #b0d4f1;
+  color: #B48EAD;
+}
+
+.bit-container {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.bit-box {
+  width: 40px;
+  height: 40px;
+  background: #b1afaf;
+  border: 2px solid #ccc;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.bit-box:hover {
+  background-color: #e0e0e0;
+}
+
+.bit-box-purple {
+  background: #f5f0f7 !important;
+  border: 2px solid #B48EAD !important;
+  color: #4b3f4e !important;
+}
+
+.bit-box-purple:hover {
+  background-color: #e9dfe9 !important;
+}
+
+.card.card-purple .bit-box {
+  background: #f5f0f7 !important;
+  border: 2px solid #B48EAD !important;
+  color: #4b3f4e !important;
+}
+
+.card.card-purple .bit-box:hover {
+  background-color: #e9dfe9 !important;
+}
+
+.card-purple .hex-value {
+  background: #f8f3f7;
+  border: 1px solid #B48EAD;
+  color: #B48EAD;
+}
+
+.card-purple .modern-button {
+  background: linear-gradient(135deg, #B48EAD, #D4B8C8);
+}
+
+.card-purple .modern-button:hover {
+  background: linear-gradient(135deg, #9f749a, #c8a1bc);
+}
+
+.card-purple .dot.active {
+  background-color: #B48EAD;
+}
+
+.tf-quiz-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.tf-question-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  transition: background 0.3s ease;
+  flex-wrap: wrap;
+}
+
+.tf-question-text {
+  flex: 1 1 60%;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.tf-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.tf-btn {
+  padding: 0.5rem 1.2rem;
+  font-size: 0.95rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #e0e0e0;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.tf-btn:hover {
+  transform: scale(1.05);
+}
+
+.tf-btn.selected {
+  background: linear-gradient(135deg, #007acc, #00c9ff);
+  color: white;
+}
+
+.tf-question-row.correct {
+  background-color: #e6ffe6;
+}
+
+.tf-question-row.incorrect {
+  background-color: #ffe6e6;
+}
+
+
+.content-with-image {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.text-side {
+  flex: 1 1 60%;
+}
+
+.image-side {
+  flex: 1 1 35%;
+  display: flex;
+  justify-content: center;
+}
+
+.image-side img {
+  width: 220px;        /* Adjust width */
+  height: 300px;       /* Fixed portrait height */
+  object-fit: cover;   /* Ensure it fills frame neatly */
+  border-radius: 12px; /* Optional: rounded corners */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Page Title Section -->
+<div class="card-header-box">
+  <h1 class="page-title">HEXADECIMAL</h1>
+  <p class="page-subtitle">Q. How can we represent hex using binary?.</p>
+</div>
+
+
+
+
+    <!-- CARD 1 HTML -->
+
+  <div class="card">
+  <div class="title">INTRODUCTION <span style="color: rgb(100, 162, 113);">.</span></div>
+  <div class="content content-with-image">
+        <div class="text-side">
+      <p>
+        Binary numbers are great – if you’re a computer! But for humans, binary is hard to read.
+        Hexadecimal is a <strong>base-16</strong> system that uses digits <strong>0–9</strong> and <strong>A–F</strong>
+        to represent values from <strong>0 to 15</strong>.
+      </p>
+      <p>
+        Each digit in hexadecimal maps directly to four binary digits (bits).
+        This means it's much easier for humans to convert long binary numbers into hex.
+      </p>
+ <hr class="section-divider">
+
+    </div>
+
+        <div class="image-side">
+      <img src="images/hex1.png" alt="Hex Diagram" />
+    </div>
+
+<br>
+ <hr class="section-divider">
+
+    <p>
+      Use the slider below to explore how decimal numbers are represented in hexadecimal:
+    </p>
+
+<br>
+
+    <input
+  type="range"
+  min="0"
+  max="15"
+  value="0"
+  id="hexSlider"
+  class="modern-slider"
+/>
+
+<br>
+
+<div class="value-display">
+  <div class="value-box">
+    <span class="value-label">Decimal</span>
+    <span id="decOutput" class="value-number">0</span>
+  </div>
+  <div class="value-box">
+    <span class="value-label">Hexadecimal</span>
+    <span id="hexOutput" class="value-number">00</span>
+  </div>
+</div>
+
+<br>
+ <hr class="section-divider">
+
+ <p>
+  Here's a table that shows how decimal values map to hexadecimal and binary (8-bit):
+</p>
+
+<table class="hex-table full-width">
+  <thead>
+    <tr>
+      <th>Decimal</th>
+      <th>Hex</th>
+      <th>Binary (8-bit)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>0</td><td>0</td><td>00000000</td></tr>
+    <tr><td>1</td><td>1</td><td>00000001</td></tr>
+    <tr><td>2</td><td>2</td><td>00000010</td></tr>
+    <tr><td>3</td><td>3</td><td>00000011</td></tr>
+    <tr><td>4</td><td>4</td><td>00000100</td></tr>
+    <tr><td>5</td><td>5</td><td>00000101</td></tr>
+    <tr><td>6</td><td>6</td><td>00000110</td></tr>
+    <tr><td>7</td><td>7</td><td>00000111</td></tr>
+    <tr><td>8</td><td>8</td><td>00001000</td></tr>
+    <tr><td>9</td><td>9</td><td>00001001</td></tr>
+    <tr><td>10</td><td>A</td><td>00001010</td></tr>
+    <tr><td>11</td><td>B</td><td>00001011</td></tr>
+    <tr><td>12</td><td>C</td><td>00001100</td></tr>
+    <tr><td>13</td><td>D</td><td>00001101</td></tr>
+    <tr><td>14</td><td>E</td><td>00001110</td></tr>
+    <tr><td>15</td><td>F</td><td>00001111</td></tr>
+  </tbody>
+</table>
+
+  </div>
+
+<hr class="section-divider" />
+
+<div class="card-theme-selector">
+  <button class="theme-dot white" onclick="setCardTheme(this, '#ffffff')"></button>
+  <button class="theme-dot blue" onclick="setCardTheme(this, '#cbe4f9')"></button>
+  <button class="theme-dot yellow" onclick="setCardTheme(this, '#fdf3c0')"></button>
+  <button class="theme-dot red" onclick="setCardTheme(this, '#e6c5c0')"></button>
+  <button class="theme-dot green" onclick="setCardTheme(this, '#c8e1dc')"></button>
+</div>
+
+
+
+</div>
+
+
+    <!-- CARD 2 HTML -->
+
+<div class="card">
+  <div class="title">USEAGE <span style="color: rgb(226, 196, 76);">.</span></div>
+  <div class="content">
+    <p>
+      Computer scientists and programmers often use hexadecimal because it is a
+      <strong>shorter and more readable representation</strong> of binary.
+    </p>
+
+    <div class="example-box">
+      <p><strong>Binary:</strong> <code>11111111</code></p>
+      <p><strong>Hex:</strong> <code>FF</code></p>
+    </div>
+
+    <p>
+      This is especially useful when working with large sets of binary values such as memory addresses or color codes.
+    </p>
+
+    <div class="example-box">
+      <p><strong>Memory Address:</strong> <code>0x1A3F</code></p>
+      <p><strong>Color Code:</strong> <code>#FF5733</code></p>
+    </div>
+
+    <p>
+      Each hexadecimal digit maps directly to four binary digits (bits). This makes it easy to
+      <strong>group bits into manageable chunks</strong> and understand what's going on at the machine level.
+    </p>
+  </div>
+  
+  <hr class="section-divider" />
+
+  <div class="card-theme-selector">
+    <button class="theme-dot white" onclick="setCardTheme(this, '#ffffff')"></button>
+    <button class="theme-dot blue" onclick="setCardTheme(this, '#cbe4f9')"></button>
+    <button class="theme-dot yellow" onclick="setCardTheme(this, '#fdf3c0')"></button>
+    <button class="theme-dot red" onclick="setCardTheme(this, '#e6c5c0')"></button>
+    <button class="theme-dot green" onclick="setCardTheme(this, '#c8e1dc')"></button>
+  </div>
+</div>
+
+
+    <!-- CARD 3 HTML -->
+
+<div class="card">
+  <div class="title">CONVERT 01 <span style="color: rgb(69, 138, 172);">.</span></div>
+  <div class="content">
+
+
+    <p>
+      To convert binary to hex, you have to split the binary number in half and then convert both 4-bits (called nibbles) into binary. To go from hex to binary, you just reverse the process. To convert binary to hex, split the 8-bit binary number into two 4-bit groups (called <strong>nibbles</strong>).
+      Each nibble can be directly converted into a hexadecimal digit.
+    </p>
+
+    <!-- Bit weights -->
+<div style="display: flex; justify-content: center; gap: 0.75rem; margin-top: 2rem; font-weight: bold; color: #444; font-size: 1.3rem;">
+<div style="width: 60px; text-align: center;">8</div>
+<div style="width: 60px; text-align: center;">4</div>
+<div style="width: 60px; text-align: center;">2</div>
+<div style="width: 60px; text-align: center;">1</div>
+<div style="width: 60px; text-align: center;">8</div>
+<div style="width: 60px; text-align: center;">4</div>
+<div style="width: 60px; text-align: center;">2</div>
+<div style="width: 60px; text-align: center;">1</div>
+</div>
+<!-- Interactive Binary Grid -->
+<div id="interactiveBinary" style="display: flex; justify-content: center; gap: 0.75rem; margin-top: 0.5rem;">
+<!-- Bits added via JS -->
+</div>
+<!-- Test Buttons -->
+<div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1.5rem;">
+<button class="modern-button" onclick="generateRandomBinary()">Generate Random Binary</button>
+<button class="modern-button" onclick="revealHexValues()">Show Hex Value</button>
+</div>
+<!-- Hex values under each nibble -->
+<div style="display: flex; justify-content: center; gap: 180px; margin-top: 1.5rem; font-size: 2rem; font-weight: bold;">
+<span id="leftHex">0</span>
+<span id="rightHex">0</span>
+</div>
+</div>
+
+<hr class="section-divider">
+
+  <div class="quiz-section"></div>
+  
+  <p style="text-align: left;"><strong>Quiz:</strong> Click the correct hexadecimal value that matches the binary number.</p>
+
+<div class="quiz-area">
+  <div id="quizBinary" class="quiz-binary">00000000</div>
+  <div class="quiz-options-modern" id="quizChoices"></div>
+  <div class="quiz-dots" id="quizDots"></div>
+  <div id="quizFeedback" class="quiz-feedback"></div>
+</div>
+
+  <hr class="section-divider" />
+
+  <div class="card-theme-selector">
+    <button class="theme-dot white" onclick="setCardTheme(this, '#ffffff')"></button>
+    <button class="theme-dot blue" onclick="setCardTheme(this, '#cbe4f9')"></button>
+    <button class="theme-dot yellow" onclick="setCardTheme(this, '#fdf3c0')"></button>
+    <button class="theme-dot red" onclick="setCardTheme(this, '#e6c5c0')"></button>
+    <button class="theme-dot green" onclick="setCardTheme(this, '#c8e1dc')"></button>
+  </div>
+
+</div>
+
+
+    <!-- CARD 4 HTML -->
+
+<div class="card card-purple">
+  <div class="title">CONVERT 02 <span style="color: rgb(164, 84, 155);">.</span></div>
+  <div class="content">
+    <p>Each hexadecimal digit corresponds to <strong>4 binary digits</strong>.</p>
+
+    <div class="example-box">
+      <p><strong>Hex:</strong> <code>A2</code></p>
+      <p>
+        A → <code>1010</code><br>
+        2 → <code>0010</code><br>
+        <strong>Result:</strong> <code>10100010</code>
+      </p>
+    </div>
+
+    <div id="hexToBinChallenge" class="hex-challenge">
+      <p style="text-align: left;"><strong>Challenge:</strong> Click the boxes below to enter the binary value that corresponds to the given hexadecimal number.</p>
+
+      <div class="hex-prompt">
+        <span class="hex-label">Hex:</span>
+        <span id="hexToBinHex" class="hex-value">--</span>
+      </div>
+
+      <div id="hexToBinBoxes" class="bit-container"></div>
+
+      <button class="modern-button" onclick="submitHexToBin()">✅ Submit</button>
+      <button class="modern-button hidden" id="tryAnotherBtn" onclick="generateHexToBinChallenge()">🔄 Try Another</button>
+
+      <p id="hexToBinFeedback" class="quiz-feedback"></p>
+      <div class="quiz-dots" id="hexToBinDots"></div>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <div class="card-theme-selector">
+    <button class="theme-dot white" onclick="setCardTheme(this, '#ffffff')"></button>
+    <button class="theme-dot blue" onclick="setCardTheme(this, '#cbe4f9')"></button>
+    <button class="theme-dot yellow" onclick="setCardTheme(this, '#fdf3c0')"></button>
+    <button class="theme-dot red" onclick="setCardTheme(this, '#e6c5c0')"></button>
+    <button class="theme-dot green" onclick="setCardTheme(this, '#c8e1dc')"></button>
+  </div>
+</div>
+
+
+
+
+
+<!-- CARD 5 HTML -->
+
+<div class="card">
+  <div class="title">CONVERT 03 <span style="color: rgb(113, 179, 59);">.</span></div>
+  <div class="content">
+    <p>
+      To convert <strong>hex to decimal</strong>, first convert each hex digit to binary (4 bits), combine them, and then convert that binary to decimal.
+    </p>
+    <p>
+      For example: <code>3F</code> → <code>0011 1111</code> → <code>63</code>
+    </p>
+    <p>
+      To go from <strong>decimal to hex</strong>, convert the number to binary first, then split it into two 4-bit groups, and convert each to hex:
+    </p>
+    <p>
+      For example: <code>89</code> → <code>01011001</code> → <code>5</code> and <code>9</code> → <code>59</code>
+    </p>
+
+    <hr class="section-divider">
+
+    <div id="hexDecQuizSection">
+      <p><strong>Quiz:</strong> Enter the correct hexadecimal value for the given decimal number.</p>
+      <p>Decimal: <span id="hexDecQuizDecimal">--</span></p>
+
+      <input type="text" id="hexDecQuizInput" placeholder="Enter hex (e.g. 3F)" style="padding: 0.5rem 1rem; font-size: 1.1rem; border-radius: 8px; border: 1px solid #888; width: 120px; text-transform: uppercase; text-align: center;" />
+
+      <button onclick="submitHexDecQuiz()" style="margin-left: 1rem; padding: 0.6rem 1.2rem; font-size: 1rem; border: none; border-radius: 8px; background-color: #007acc; color: white; cursor: pointer; transition: background 0.2s;">
+        Check
+      </button>
+
+      <p id="hexDecFeedback" style="margin-top: 1rem; font-weight: bold;"></p>
+
+      <div class="quiz-dots" id="hexDecQuizDots" style="margin-top: 1rem;"></div>
+    </div>
+  </div>
+
+
+
+  <hr class="section-divider" />
+
+  <div class="card-theme-selector">
+    <button class="theme-dot white" onclick="setCardTheme(this, '#ffffff')"></button>
+    <button class="theme-dot blue" onclick="setCardTheme(this, '#cbe4f9')"></button>
+    <button class="theme-dot yellow" onclick="setCardTheme(this, '#fdf3c0')"></button>
+    <button class="theme-dot red" onclick="setCardTheme(this, '#e6c5c0')"></button>
+    <button class="theme-dot green" onclick="setCardTheme(this, '#c8e1dc')"></button>
+  </div>
+
+</div>
+
+<!-- CARD 6 HTML -->
+<div class="card">
+  <div class="title">QUIZ <span style="color: rgb(160, 166, 161);">.</span></div>
+  <div class="content">
+    <p>Read each statement below. Choose whether it's <strong>True</strong> or <strong>False</strong>.</p>
+
+    <div id="tfQuizQuestions" class="tf-quiz-container"></div>
+
+    <button class="modern-button" onclick="checkTFAnswers()" style="margin-top: 2rem;">
+      🧪 Check Answers
+    </button>
+
+    <p id="tfQuizResult" class="quiz-feedback" style="margin-top: 1rem;"></p>
+  </div>
+
+  <hr class="section-divider" />
+
+  <div class="card-theme-selector">
+    <button class="theme-dot white" onclick="setCardTheme(this, '#ffffff')"></button>
+    <button class="theme-dot blue" onclick="setCardTheme(this, '#cbe4f9')"></button>
+    <button class="theme-dot yellow" onclick="setCardTheme(this, '#fdf3c0')"></button>
+    <button class="theme-dot red" onclick="setCardTheme(this, '#e6c5c0')"></button>
+    <button class="theme-dot green" onclick="setCardTheme(this, '#c8e1dc')"></button>
+  </div>
+</div>
+
+</div>
+
+</body>
+
+   <!-- CARD 1 SCRIPT -->
+<script>
+  const slider = document.getElementById("hexSlider");
+  const decOutput = document.getElementById("decOutput");
+  const hexOutput = document.getElementById("hexOutput");
+
+  slider.addEventListener("input", function () {
+    const dec = parseInt(slider.value);
+    const hex = dec.toString(16).toUpperCase().padStart(2, '0');
+    decOutput.textContent = dec;
+    hexOutput.textContent = hex;
+  });
+</script>
+
+
+   <!-- CARD 3 SCRIPT -->
+
+
+
+<script>
+function createInteractiveBinary() {
+  const container = document.getElementById("interactiveBinary");
+  container.innerHTML = "";
+
+  for (let i = 0; i < 8; i++) {
+    const bit = document.createElement("div");
+    bit.textContent = "0";
+    bit.dataset.index = i;
+    bit.style = `
+      width: 60px;
+      height: 60px;
+      font-size: 2rem;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid #aaa;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      background: ${i < 4 ? '#f0f8ff' : '#e0e0e0'};
+      transition: background 0.2s ease;
+    `;
+
+    bit.addEventListener("click", () => {
+      bit.textContent = bit.textContent === "0" ? "1" : "0";
+      updateHexFromBinary();
+    });
+
+    container.appendChild(bit);
+  }
+}
+
+
+function updateHexFromBinary() {
+  const bits = [...document.querySelectorAll("#interactiveBinary div")];
+  const binary = bits.map(b => b.textContent).join('');
+
+  const leftNibble = binary.slice(0, 4);
+  const rightNibble = binary.slice(4, 8);
+
+  document.getElementById("leftHex").textContent = parseInt(leftNibble, 2).toString(16).toUpperCase();
+  document.getElementById("rightHex").textContent = parseInt(rightNibble, 2).toString(16).toUpperCase();
+}
+
+function generateRandomBinary() {
+  const bits = document.querySelectorAll("#interactiveBinary div");
+  bits.forEach((bit, i) => {
+    const random = Math.random() < 0.5 ? "0" : "1";
+    bit.textContent = random;
+    bit.style.background = i < 4 ? '#f0f8ff' : '#e0e0e0'; // reset background
+  });
+
+  // Clear displayed hex values for now
+  document.getElementById("leftHex").textContent = "?";
+  document.getElementById("rightHex").textContent = "?";
+
+  // Optional: visually de-emphasize the hex
+  document.getElementById("leftHex").style.color = "#999";
+  document.getElementById("rightHex").style.color = "#999";
+  document.getElementById("leftHex").style.fontWeight = "normal";
+  document.getElementById("rightHex").style.fontWeight = "normal";
+}
+
+function revealHexValues() {
+  const bits = [...document.querySelectorAll("#interactiveBinary div")];
+  const binary = bits.map(b => b.textContent).join('');
+
+  const leftNibble = binary.slice(0, 4);
+  const rightNibble = binary.slice(4, 8);
+
+  document.getElementById("leftHex").textContent = parseInt(leftNibble, 2).toString(16).toUpperCase();
+  document.getElementById("rightHex").textContent = parseInt(rightNibble, 2).toString(16).toUpperCase();
+
+  // Highlight on reveal
+  document.getElementById("leftHex").style.color = "#5B8FB9";
+  document.getElementById("rightHex").style.color = "#5B8FB9";
+  document.getElementById("leftHex").style.fontWeight = "bold";
+  document.getElementById("rightHex").style.fontWeight = "bold";
+}
+
+
+createInteractiveBinary();
+
+
+</script>
+
+<script>
+  let quizAnswer = "";
+  let quizStreak = 0;
+
+  function updateDots() {
+    const dotContainer = document.getElementById("quizDots");
+    dotContainer.innerHTML = "";
+    for (let i = 0; i < 10; i++) {
+      const dot = document.createElement("span");
+      dot.classList.add("dot");
+      if (i < quizStreak) dot.classList.add("active");
+      dotContainer.appendChild(dot);
+    }
+  }
+
+  function generateQuiz() {
+    const num = Math.floor(Math.random() * 256);
+    quizAnswer = num.toString(16).toUpperCase().padStart(2, "0");
+    document.getElementById("quizBinary").textContent = num.toString(2).padStart(8, "0");
+
+    const options = [quizAnswer];
+    while (options.length < 4) {
+      const option = Math.floor(Math.random() * 256).toString(16).toUpperCase().padStart(2, "0");
+      if (!options.includes(option)) options.push(option);
+    }
+
+    options.sort(() => Math.random() - 0.5);
+
+    const choiceHTML = options.map(opt =>
+      `<button onclick="checkAnswer('${opt}')">${opt}</button>`
+    ).join("");
+
+    document.getElementById("quizChoices").innerHTML = choiceHTML;
+    document.getElementById("quizFeedback").textContent = "";
+    updateDots();
+  }
+
+  function checkAnswer(selected) {
+    const feedback = document.getElementById("quizFeedback");
+
+    if (selected === quizAnswer) {
+      quizStreak++;
+      if (quizStreak >= 10) {
+        feedback.textContent = "🎉 Well done! You got 10 correct in a row!";
+        document.getElementById("quizChoices").innerHTML = "";
+      } else {
+        feedback.textContent = "✅ Correct!";
+        generateQuiz();
+      }
+    } else {
+      quizStreak = 0;
+      feedback.textContent = `❌ Incorrect. Correct answer: ${quizAnswer}`;
+      generateQuiz();
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    generateQuiz();
+  });
+</script>
+
+
+   <!-- CARD 4 SCRIPT -->
+<script>
+  let hexBinAnswer = "";
+  let hexToBinStreak = 0;
+  let hasWon = false;
+
+  const hexToBinHexEl = document.getElementById("hexToBinHex");
+  const hexToBinBoxes = document.getElementById("hexToBinBoxes");
+  const hexToBinFeedback = document.getElementById("hexToBinFeedback");
+  const tryAnotherBtn = document.getElementById("tryAnotherBtn");
+
+  function updateHexToBinDots() {
+    const dotContainer = document.getElementById("hexToBinDots");
+    dotContainer.innerHTML = "";
+    for (let i = 0; i < 5; i++) {
+      const dot = document.createElement("span");
+      dot.classList.add("dot");
+      if (i < hexToBinStreak) dot.classList.add("active");
+      dotContainer.appendChild(dot);
+    }
+  }
+
+  function generateHexToBinChallenge() {
+    const hex = Math.floor(Math.random() * 256).toString(16).toUpperCase().padStart(2, '0');
+    hexToBinHexEl.textContent = hex;
+    hexBinAnswer = [...hex].map(h => parseInt(h, 16).toString(2).padStart(4, '0')).join('');
+    hexToBinBoxes.innerHTML = "";
+    tryAnotherBtn.classList.add("hidden");
+    hasWon = false;
+
+    for (let i = 0; i < 8; i++) {
+      const box = document.createElement("div");
+      box.className = "bit-box";
+if (document.querySelector('.card-purple .bit-container')?.contains(hexToBinBoxes)) {
+  box.classList.add("bit-box-purple");
+}
+
+      box.textContent = "0";
+      box.onclick = () => {
+        if (!hasWon) {
+          box.textContent = box.textContent === "0" ? "1" : "0";
+        }
+      };
+      hexToBinBoxes.appendChild(box);
+    }
+
+    hexToBinFeedback.textContent = "";
+    updateHexToBinDots();
+  }
+
+  function submitHexToBin() {
+    if (hasWon) return;
+
+    const bits = [...hexToBinBoxes.children].map(el => el.textContent).join('');
+    if (bits === hexBinAnswer) {
+      hexToBinStreak++;
+      if (hexToBinStreak >= 5) {
+        hexToBinFeedback.textContent = "🎉 You got 5 in a row! Well done!";
+        hexToBinFeedback.style.color = "green";
+        hasWon = true;
+      } else {
+        hexToBinFeedback.textContent = "✅ Correct!";
+        hexToBinFeedback.style.color = "green";
+        generateHexToBinChallenge();
+      }
+    } else {
+      hexToBinStreak = 0;
+      hexToBinFeedback.textContent = `❌ Incorrect. Answer was ${hexBinAnswer}`;
+      hexToBinFeedback.style.color = "red";
+    }
+
+    updateHexToBinDots();
+    tryAnotherBtn.classList.remove("hidden");
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    generateHexToBinChallenge();
+  });
+</script>
+
+
+   <!-- CARD 5 SCRIPT -->
+
+   <script>
+  let hexDecQuizAnswer = "";
+  let hexDecQuizStreak = 0;
+
+  function updateHexDecDots() {
+    const dotContainer = document.getElementById("hexDecQuizDots");
+    dotContainer.innerHTML = "";
+    for (let i = 0; i < 5; i++) {
+      const dot = document.createElement("span");
+      dot.classList.add("dot");
+      if (i < hexDecQuizStreak) dot.classList.add("active");
+      dotContainer.appendChild(dot);
+    }
+  }
+
+  function generateHexDecQuiz() {
+    const num = Math.floor(Math.random() * 256);
+    hexDecQuizAnswer = num.toString(16).toUpperCase().padStart(2, "0");
+    document.getElementById("hexDecQuizDecimal").textContent = num;
+    document.getElementById("hexDecQuizInput").value = "";
+    document.getElementById("hexDecFeedback").textContent = "";
+    updateHexDecDots();
+  }
+
+  function submitHexDecQuiz() {
+    const userAnswer = document.getElementById("hexDecQuizInput").value.trim().toUpperCase();
+    const feedback = document.getElementById("hexDecFeedback");
+
+    if (userAnswer === hexDecQuizAnswer) {
+      hexDecQuizStreak++;
+      feedback.textContent = "✅ Correct!";
+      feedback.style.color = "green";
+
+      if (hexDecQuizStreak >= 5) {
+        feedback.textContent = "🎉 You got 5 correct! Well done!";
+        document.getElementById("hexDecQuizInput").disabled = true;
+      } else {
+        generateHexDecQuiz();
+      }
+    } else {
+      hexDecQuizStreak = 0;
+      feedback.textContent = `❌ Incorrect. The correct answer was ${hexDecQuizAnswer}`;
+      feedback.style.color = "red";
+      generateHexDecQuiz();
+    }
+
+    updateHexDecDots();
+  }
+
+  // Initialize on page load
+  window.addEventListener("DOMContentLoaded", () => {
+    generateHexDecQuiz();
+  });
+</script>
+
+
+   <!-- CARD 6 SCRIPT -->
+
+<script>
+  const theoryQuestions = [
+    { question: "Hexadecimal is a base 16 number system.", answer: true },
+    { question: "There are 12 digits in hexadecimal.", answer: false },
+    { question: "Hex A = decimal 10.", answer: true },
+    { question: "Hexadecimal is used in web colors and memory addresses.", answer: true },
+  ];
+
+  const conversionQuestions = [
+    { question: "Binary 1111 converts to hexadecimal F.", answer: true },
+    { question: "Decimal 255 is FF in hexadecimal.", answer: true },
+    { question: "Hexadecimal is harder to read than binary.", answer: false },
+    { question: "Each hex digit corresponds to 8 binary digits.", answer: false },
+    { question: "Binary 1010 is A in hex.", answer: true },
+    { question: "Decimal 32 is equal to hex 2F.", answer: false },
+    { question: "Hex 1E = decimal 30.", answer: true },
+    { question: "Hex 10 = binary 00010000.", answer: false },
+  ];
+
+  let tfUserAnswers = [];
+
+  function shuffleArray(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  function renderTFQuiz() {
+    const container = document.getElementById("tfQuizQuestions");
+    container.innerHTML = "";
+
+    const selectedConversion = shuffleArray(conversionQuestions).slice(0, 4); // pick 4 random
+    const fullQuiz = [...shuffleArray(theoryQuestions), ...selectedConversion];
+
+    tfUserAnswers = Array(fullQuiz.length).fill(null);
+
+    fullQuiz.forEach((item, index) => {
+      const row = document.createElement("div");
+      row.classList.add("tf-question-row");
+
+      const questionText = document.createElement("div");
+      questionText.classList.add("tf-question-text");
+      questionText.textContent = item.question;
+
+      const btnGroup = document.createElement("div");
+      btnGroup.classList.add("tf-buttons");
+
+      const trueBtn = document.createElement("button");
+      const falseBtn = document.createElement("button");
+
+      trueBtn.className = "tf-btn";
+      falseBtn.className = "tf-btn";
+
+      trueBtn.textContent = "True";
+      falseBtn.textContent = "False";
+
+      trueBtn.onclick = () => selectTF(index, true, trueBtn, falseBtn);
+      falseBtn.onclick = () => selectTF(index, false, trueBtn, falseBtn);
+
+      btnGroup.appendChild(trueBtn);
+      btnGroup.appendChild(falseBtn);
+
+      row.appendChild(questionText);
+      row.appendChild(btnGroup);
+      container.appendChild(row);
+    });
+
+    // Store questions for checking later
+    window.tfQuestions = fullQuiz;
+  }
+
+  function selectTF(index, value, trueBtn, falseBtn) {
+    tfUserAnswers[index] = value;
+
+    const siblings = [trueBtn, falseBtn];
+    siblings.forEach(btn => btn.classList.remove("selected"));
+
+    if (value) {
+      trueBtn.classList.add("selected");
+    } else {
+      falseBtn.classList.add("selected");
+    }
+  }
+
+  function checkTFAnswers() {
+    const container = document.getElementById("tfQuizQuestions");
+    const rows = container.querySelectorAll(".tf-question-row");
+    let correct = 0;
+
+    rows.forEach((row, index) => {
+      const isCorrect = tfUserAnswers[index] === window.tfQuestions[index].answer;
+      if (isCorrect) {
+        row.classList.add("correct");
+        correct++;
+      } else {
+        row.classList.add("incorrect");
+      }
+
+      // Disable all buttons
+      row.querySelectorAll("button").forEach(btn => {
+        btn.disabled = true;
+        btn.style.cursor = "default";
+      });
+    });
+
+    const resultEl = document.getElementById("tfQuizResult");
+    resultEl.textContent = `You got ${correct} out of ${window.tfQuestions.length} correct.`;
+    resultEl.style.color = correct === window.tfQuestions.length ? "green" : "#cc0000";
+  }
+
+  window.addEventListener("DOMContentLoaded", renderTFQuiz);
+</script>
+
+
+   <!-- THREE BUTTON SCRIPT-->
+
+   <script>
+  function setCardTheme(button, color) {
+    // Find the parent .card element
+    const card = button.closest(".card");
+    if (card) {
+      card.style.backgroundColor = color;
+    }
+  }
+</script>
+
+   <!-- CARD ANIMATION SCRIPT-->
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target); // animate once
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  document.querySelectorAll('.card').forEach(card => {
+    observer.observe(card);
+  });
+</script>
+
+
+</html>
