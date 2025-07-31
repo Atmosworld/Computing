@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HOMEWORK</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <h1 class="page-title">CAR SALES BONUS</h1>
+  <p class="page-subtitle">Read Code · Identify Code · Understand Code</p>
+
+  <!-- CARD: CODE -->
+  <div class="card">
+    <div class="title">CODE <span style="color: rgb(100, 162, 113);">.</span></div>
+    <div class="content">
+      <pre class="example-box noselect"><code>
+total_cars = int(input("How many cars are being sold? "))
+bonus_threshold = int(input("Enter bonus target (cars): "))
+bonus_count = 0
+
+for i in range(total_cars):
+    price = float(input("Enter sale price of car £"))
+    if price > 10000:
+        print("High value sale recorded.")
+    else:
+        print("Standard sale recorded.")
+    if price >= 15000:
+        bonus_count = bonus_count + 1
+
+print("Total high-value sales:", bonus_count)
+if bonus_count >= bonus_threshold:
+    print("Bonus achieved!")
+else:
+    print("No bonus this time.")
+      </code></pre>
+    </div>
+    <hr class="section-divider" />
+    <div class="card-theme-selector">
+      <button class="theme-dot white" onclick="setCardTheme(this, '#ffffff')"></button>
+      <button class="theme-dot blue" onclick="setCardTheme(this, '#cbe4f9')"></button>
+      <button class="theme-dot yellow" onclick="setCardTheme(this, '#fdf3c0')"></button>
+      <button class="theme-dot red" onclick="setCardTheme(this, '#e6c5c0')"></button>
+      <button class="theme-dot green" onclick="setCardTheme(this, '#c8e1dc')"></button>
+    </div>
+  </div>
+
+  <!-- QUIZ CARDS (injected by JS) -->
+  <div id="quiz-container"></div>
+
+  <!-- SCORE CARD -->
+  <div class="card">
+    <div class="title">SCORE <span style="color: #b94e48;">.</span></div>
+    <div class="content">
+      <button class="modern-button" onclick="calculateScore()">🧮 Calculate Score</button>
+      <div id="score-output" style="margin-top: 1.5rem; font-size: 1.2rem;"></div>
+      <button class="modern-button" style="margin-top: 2rem;" onclick="resetQuiz()">🔄 Reset Quiz</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
